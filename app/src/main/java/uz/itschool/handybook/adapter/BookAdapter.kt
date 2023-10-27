@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import uz.itschool.handybook.databinding.BookItemBinding
+import uz.itschool.handybook.model.Book
 
 class BookAdapter(
-    var bookList: MutableList<Books>,
+    var bookList: MutableList<Book>,
     var myBook: MyBook,
     var context: Context
 ) : RecyclerView.Adapter<BookAdapter.MyHolder>() {
@@ -29,7 +30,7 @@ class BookAdapter(
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         var book = bookList[position]
         holder.name.text = book.name
-        holder.img.setImageResource(book.img)
+//        holder.img.setImageResource(book.image)
         holder.author.text = book.author
         holder.itemView.setOnClickListener {
             myBook.onItemClick(book)
@@ -42,6 +43,6 @@ class BookAdapter(
     }
 
     interface MyBook {
-        fun onItemClick(book: Books)
+        fun onItemClick(book: Book)
     }
 }
