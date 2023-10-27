@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import uz.itschool.handybook.R
 import uz.itschool.handybook.databinding.FragmentMoreBinding
-import uz.itschool.handybook.model.Books
+import uz.itschool.handybook.model.Book
 import uz.itschool.handybook.util.ShPHelper
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,14 +41,14 @@ class MoreFragment : Fragment() {
     ): View? {
         val binding = FragmentMoreBinding.inflate(inflater, container, false)
         val books = ShPHelper.getInstance(requireContext()).getBooks()
-        val item = arguments?.getSerializable("book") as Books
+        val item = arguments?.getSerializable("book") as Book
 
         if (books.contains(item)) {
             binding.saved.setImageResource(R.drawable.saved_filled)
         } else {
             binding.saved.setImageResource(R.drawable.saved)
         }
-        binding.image.setImageResource(item.img)
+//        binding.image.setImageResource(item.image)
         binding.name.text = item.name
         binding.author.text = item.author
         binding.back.setOnClickListener {

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import uz.itschool.handybook.R
 import uz.itschool.handybook.adapter.BookGridAdapter
 import uz.itschool.handybook.databinding.FragmentRomanBinding
-import uz.itschool.handybook.model.Books
+import uz.itschool.handybook.model.Book
 import uz.itschool.handybook.model.Filter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +28,7 @@ class RomanFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var listRoman: MutableList<Books>
+    private lateinit var listRoman: MutableList<Book>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,24 +47,24 @@ class RomanFragment : Fragment() {
         val item = arguments?.getSerializable("name") as Filter
         binding.textView11.visibility = View.GONE
         binding.textView.text = item.name
-        if (item.name == "Romanlar") {
-            LoadListBooks()
-        } else if (item.name == "Darsliklar") {
-            LoadDarslik()
-        } else if (item.name == "Qissalar") {
-            LoadQissa()
-        } else if (item.name == "Barchasi") {
-            LoadDarslik()
-            LoadListBooks()
-            LoadQissa()
-        } else {
-            binding.textView.text = item.name
-            binding.rv.visibility = View.GONE
-            binding.textView11.visibility = View.VISIBLE
-        }
+//        if (item.name == "Romanlar") {
+//            LoadListBooks()
+//        } else if (item.name == "Darsliklar") {
+//            LoadDarslik()
+//        } else if (item.name == "Qissalar") {
+//            LoadQissa()
+//        } else if (item.name == "Barchasi") {
+//            LoadDarslik()
+//            LoadListBooks()
+//            LoadQissa()
+//        } else {
+//            binding.textView.text = item.name
+//            binding.rv.visibility = View.GONE
+//            binding.textView11.visibility = View.VISIBLE
+//        }
 
         var adapter = BookGridAdapter(listRoman, object : BookGridAdapter.MyBook {
-            override fun onItemClick(book: Books) {
+            override fun onItemClick(book: Book) {
                 val bundle = bundleOf("book" to book)
                 findNavController().navigate(R.id.action_romanFragment_to_moreFragment, bundle)
             }
@@ -84,78 +84,78 @@ class RomanFragment : Fragment() {
         return binding.root
     }
 
-    private fun LoadListBooks() {
-        listRoman.add(
-            Books(
-                "O'tkan kunlar",
-                "Abdulla Qodiriy",
-                R.drawable.utkan_kunlar,
-                roman = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Ufq",
-                "Said Ahmad",
-                R.drawable.ufq,
-                roman = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Manaschi",
-                "Abdulhamid Ismoil",
-                R.drawable.manaschi,
-                roman = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Sarob",
-                "Abdulla Qahhor",
-                R.drawable.sarob,
-                roman = true
-            )
-        )
-    }
-
-    private fun LoadDarslik() {
-        listRoman.add(
-            Books(
-                "Matematika",
-                "6-sinf",
-                R.drawable.matem,
-                darslik = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Fizika",
-                "7-sinf",
-                R.drawable.fizika,
-                darslik = true
-            )
-        )
-    }
-
-    private fun LoadQissa() {
-        listRoman.add(
-            Books(
-                "Dunyoning ishlari",
-                "O'tkir Hoshimov",
-                R.drawable.dunyoning_ishlari,
-                qissa = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Qariya",
-                "Abbos Said",
-                R.drawable.apple,
-                darslik = true
-            )
-        )
-    }
+//    private fun LoadListBooks() {
+//        listRoman.add(
+//            Books(
+//                "O'tkan kunlar",
+//                "Abdulla Qodiriy",
+//                R.drawable.utkan_kunlar,
+//                roman = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Ufq",
+//                "Said Ahmad",
+//                R.drawable.ufq,
+//                roman = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Manaschi",
+//                "Abdulhamid Ismoil",
+//                R.drawable.manaschi,
+//                roman = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Sarob",
+//                "Abdulla Qahhor",
+//                R.drawable.sarob,
+//                roman = true
+//            )
+//        )
+//    }
+//
+//    private fun LoadDarslik() {
+//        listRoman.add(
+//            Books(
+//                "Matematika",
+//                "6-sinf",
+//                R.drawable.matem,
+//                darslik = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Fizika",
+//                "7-sinf",
+//                R.drawable.fizika,
+//                darslik = true
+//            )
+//        )
+//    }
+//
+//    private fun LoadQissa() {
+//        listRoman.add(
+//            Books(
+//                "Dunyoning ishlari",
+//                "O'tkir Hoshimov",
+//                R.drawable.dunyoning_ishlari,
+//                qissa = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Qariya",
+//                "Abbos Said",
+//                R.drawable.apple,
+//                darslik = true
+//            )
+//        )
+//    }
 
     companion object {
         /**

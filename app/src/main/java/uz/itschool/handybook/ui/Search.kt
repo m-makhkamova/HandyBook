@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import uz.itschool.handybook.adapter.BookGridAdapter
 import uz.itschool.handybook.databinding.FragmentSearchBinding
-import uz.itschool.handybook.model.Books
 import uz.itschool.handybook.R
+import uz.itschool.handybook.model.Book
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +25,7 @@ private const val ARG_PARAM1 = "param1"
 class Search : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
-    private lateinit var listRoman: MutableList<Books>
+    private lateinit var listRoman: MutableList<Book>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +40,11 @@ class Search : Fragment() {
     ): View? {
         val binding = FragmentSearchBinding.inflate(inflater, container, false)
         listRoman = mutableListOf()
-        LoadDarslik()
-        LoadListBooks()
-        LoadQissa()
+//        LoadDarslik()
+//        LoadListBooks()
+//        LoadQissa()
         var adapter = BookGridAdapter(listRoman, object : BookGridAdapter.MyBook {
-            override fun onItemClick(book: Books) {
+            override fun onItemClick(book: Book) {
                 val bundle = bundleOf("book" to book)
                 findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
             }
@@ -78,78 +77,78 @@ class Search : Fragment() {
         return binding.root
     }
 
-    private fun LoadListBooks() {
-        listRoman.add(
-            Books(
-                "O'tkan kunlar",
-                "Abdulla Qodiriy",
-                R.drawable.utkan_kunlar,
-                roman = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Ufq",
-                "Said Ahmad",
-                R.drawable.ufq,
-                roman = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Manaschi",
-                "Abdulhamid Ismoil",
-                R.drawable.manaschi,
-                roman = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Sarob",
-                "Abdulla Qahhor",
-                R.drawable.sarob,
-                roman = true
-            )
-        )
-    }
-
-    private fun LoadDarslik() {
-        listRoman.add(
-            Books(
-                "Matematika",
-                "6-sinf",
-                R.drawable.matem,
-                darslik = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Fizika",
-                "7-sinf",
-                R.drawable.fizika,
-                darslik = true
-            )
-        )
-    }
-
-    private fun LoadQissa() {
-        listRoman.add(
-            Books(
-                "Dunyoning ishlari",
-                "O'tkir Hoshimov",
-                R.drawable.dunyoning_ishlari,
-                qissa = true
-            )
-        )
-        listRoman.add(
-            Books(
-                "Qariya",
-                "Abbos Said",
-                R.drawable.apple,
-                darslik = true
-            )
-        )
-    }
+//    private fun LoadListBooks() {
+//        listRoman.add(
+//            Books(
+//                "O'tkan kunlar",
+//                "Abdulla Qodiriy",
+//                R.drawable.utkan_kunlar,
+//                roman = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Ufq",
+//                "Said Ahmad",
+//                R.drawable.ufq,
+//                roman = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Manaschi",
+//                "Abdulhamid Ismoil",
+//                R.drawable.manaschi,
+//                roman = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Sarob",
+//                "Abdulla Qahhor",
+//                R.drawable.sarob,
+//                roman = true
+//            )
+//        )
+//    }
+//
+//    private fun LoadDarslik() {
+//        listRoman.add(
+//            Books(
+//                "Matematika",
+//                "6-sinf",
+//                R.drawable.matem,
+//                darslik = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Fizika",
+//                "7-sinf",
+//                R.drawable.fizika,
+//                darslik = true
+//            )
+//        )
+//    }
+//
+//    private fun LoadQissa() {
+//        listRoman.add(
+//            Books(
+//                "Dunyoning ishlari",
+//                "O'tkir Hoshimov",
+//                R.drawable.dunyoning_ishlari,
+//                qissa = true
+//            )
+//        )
+//        listRoman.add(
+//            Books(
+//                "Qariya",
+//                "Abbos Said",
+//                R.drawable.apple,
+//                darslik = true
+//            )
+//        )
+//    }
 
     companion object {
         /**

@@ -10,9 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import uz.itschool.handybook.adapter.BookGridAdapter
 import uz.itschool.handybook.databinding.FragmentSavedBinding
-import uz.itschool.handybook.model.Books
 import uz.itschool.handybook.util.ShPHelper
 import uz.itschool.handybook.R
+import uz.itschool.handybook.model.Book
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +29,7 @@ class Saved : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var listRoman: MutableList<Books>
+    private lateinit var listRoman: MutableList<Book>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class Saved : Fragment() {
         var binding = FragmentSavedBinding.inflate(inflater, container, false)
         listRoman = ShPHelper.getInstance(requireContext()).getBooks()
         var adapter = BookGridAdapter(listRoman, object : BookGridAdapter.MyBook {
-            override fun onItemClick(book: Books) {
+            override fun onItemClick(book: Book) {
                 val bundle = bundleOf("book" to book)
                 findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
             }

@@ -1,11 +1,10 @@
 package uz.itschool.handybook.util
 
 import android.content.Context
-import android.net.Uri
-import uz.itschool.handybook.model.Books
 import uz.itschool.handybook.model.User
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import uz.itschool.handybook.model.Book
 
 class ShPHelper private constructor(context: Context) {
     val shared = context.getSharedPreferences("data", 0)
@@ -22,11 +21,11 @@ class ShPHelper private constructor(context: Context) {
         }
     }
 
-    fun setBooks(book: Books) {
-        val type = object : TypeToken<List<Books>>() {}.type
+    fun setBooks(book: Book) {
+        val type = object : TypeToken<List<Book>>() {}.type
         val gson = Gson()
 
-        val bookList: MutableList<Books>
+        val bookList: MutableList<Book>
         val str = shared.getString("Books", "")
 
         if (str == "") {
@@ -40,11 +39,11 @@ class ShPHelper private constructor(context: Context) {
         edit.putString("Books", edited).apply()
     }
 
-    fun removeBook(book: Books) {
-        val type = object : TypeToken<List<Books>>() {}.type
+    fun removeBook(book: Book) {
+        val type = object : TypeToken<List<Book>>() {}.type
         val gson = Gson()
 
-        val bookList: MutableList<Books>
+        val bookList: MutableList<Book>
         val str = shared.getString("Books", "")
 
         if (str == "") {
@@ -62,11 +61,11 @@ class ShPHelper private constructor(context: Context) {
         edit.putString("Books", edited).apply()
     }
 
-    fun getBooks(): MutableList<Books> {
-        val type = object : TypeToken<List<Books>>() {}.type
+    fun getBooks(): MutableList<Book> {
+        val type = object : TypeToken<List<Book>>() {}.type
         val gson = Gson()
 
-        val bookList: MutableList<Books>
+        val bookList: MutableList<Book>
         val str = shared.getString("Books", "")
 
         if (str == "") {
@@ -89,7 +88,7 @@ class ShPHelper private constructor(context: Context) {
         } else {
             userList = gson.fromJson(str, type)
         }
-        userList.add(User(user.name, user.surname, user.email, user.password))
+//        userList.add(User(user.name, user.surname, user.email, user.password))
 
         val edited = gson.toJson(userList)
         edit.putString("Users", edited).apply()

@@ -4,9 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import uz.itschool.handybook.databinding.BookItemBinding
 import uz.itschool.handybook.databinding.LanguageItemBinding
-import uz.itschool.handybook.model.Books
 import uz.itschool.handybook.model.Language
 
 class LanguageAdapter(

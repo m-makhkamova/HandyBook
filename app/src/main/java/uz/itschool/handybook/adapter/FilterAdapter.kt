@@ -1,13 +1,10 @@
 package uz.itschool.handybook.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import uz.itschool.handybook.databinding.BookItemBinding
 import uz.itschool.handybook.databinding.FilterItemBinding
-import uz.itschool.handybook.model.Books
 import uz.itschool.handybook.model.Filter
 
 class FilterAdapter(

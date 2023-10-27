@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import uz.itschool.handybook.databinding.BookItemGridBinding
-import uz.itschool.handybook.model.Books
 
 class BookGridAdapter(
     var bookList: MutableList<Books>,
