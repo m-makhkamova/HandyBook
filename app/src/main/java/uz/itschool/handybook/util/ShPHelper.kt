@@ -106,13 +106,13 @@ class ShPHelper private constructor(context: Context) {
         } else {
             userList = gson.fromJson(str, type)
         }
-        for (i in userList) {
-            if (i.email == user.email && i.password == user.password) {
-                userList.remove(i)
-                user.url = url
-                userList.add(user)
-            }
-        }
+//        for (i in userList) {
+//            if (i.email == user.email && i.password == user.password) {
+//                userList.remove(i)
+//                user.url = url
+//                userList.add(user)
+//            }
+//        }
 
         val edited = gson.toJson(userList)
         edit.putString("Users", edited).apply()

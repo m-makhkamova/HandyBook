@@ -54,40 +54,40 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     ): View? {
         val binding = FragmentMainBinding.inflate(inflater, container, false)
 
-        val user = arguments?.getSerializable("user") as User
+        //val user = arguments?.getSerializable("user") as User
         val bundle = Bundle()
 
         var userList = ShPHelper.getInstance(requireContext()).getUser()
         var img = binding.avatar
-        for (i in userList) {
-            if (i == user) {
-                if (i.url != null) {
-                    img.setImageURI(Uri.parse(i.url))
-                }
-                else{
-                    img.setImageResource(R.drawable.user)
-                }
-            }
-        }
+//        for (i in userList) {
+//            if (i == user) {
+//                if (i.url != null) {
+//                    img.setImageURI(Uri.parse(i.url))
+//                }
+//                else{
+//                    img.setImageResource(R.drawable.user)
+//                }
+//            }
+//        }
 
         drawerLayout = binding.drawerLayout
         val navigationView = binding.navView
         val toolbar = binding.toolbar
         bottomMenu = binding.bottomMenu
 
-        val header = binding.navView.getHeaderView(0)
-        header.findViewById<TextView>(R.id.header_title).text = user.name + " " + user.surname
-        header.findViewById<TextView>(R.id.sub_title).text = user.email
-        for (i in userList) {
-            if (i == user) {
-                if (i.url != null) {
-                    header.findViewById<ImageView>(R.id.avatar).setImageURI(Uri.parse(i.url))
-                }
-                else{
-                    img.setImageResource(R.drawable.user)
-                }
-            }
-        }
+//        val header = binding.navView.getHeaderView(0)
+//        header.findViewById<TextView>(R.id.header_title).text = user.name + " " + user.surname
+//        header.findViewById<TextView>(R.id.sub_title).text = user.email
+//        for (i in userList) {
+//            if (i == user) {
+//                if (i.url != null) {
+//                    header.findViewById<ImageView>(R.id.avatar).setImageURI(Uri.parse(i.url))
+//                }
+//                else{
+//                    img.setImageResource(R.drawable.user)
+//                }
+//            }
+//        }
 
 
 
@@ -106,11 +106,11 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
             navigationView.setCheckedItem(R.id.nav_home);
         }
         loadFragment(Home())
-        binding.avatar.setOnClickListener {
-            bundle.putSerializable("user", user)
-            findNavController().navigate(R.id.action_main_to_personalFragment, bundle)
-
-        }
+//        binding.avatar.setOnClickListener {
+//            bundle.putSerializable("user", user)
+//            findNavController().navigate(R.id.action_main_to_personalFragment, bundle)
+//
+//        }
         bottomMenu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {

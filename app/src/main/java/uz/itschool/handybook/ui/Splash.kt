@@ -41,18 +41,18 @@ class Splash : Fragment() {
         val user = ShPHelper.getInstance(requireContext()).getUser()
 
         binding.button.setOnClickListener{
-            for (i in user){
-               if(i.status){
-                   val bundle = Bundle()
-                   bundle.putSerializable("user", i)
-                   findNavController().navigate(R.id.action_splash_to_main, bundle)
+//            for (i in user){
+//               if(i.status){
+//                   val bundle = Bundle()
+//                   bundle.putSerializable("user", i)
+                   findNavController().navigate(R.id.action_splash_to_main)
                }
-                else{
-                   findNavController().navigate(R.id.action_splash_to_logIn)
-               }
-            }
+            //    else{
+//                   findNavController().navigate(R.id.action_splash_to_logIn)
+//               }
+//            }
 
-        }
+        //}
         binding.reg.setOnClickListener {
             findNavController().navigate(R.id.action_splash_to_registration)
         }

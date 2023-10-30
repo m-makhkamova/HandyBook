@@ -1,24 +1,23 @@
 package uz.itschool.handybook.ui
 
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING
-import androidx.viewpager2.widget.ViewPager2
-import uz.itschool.handybook.adapter.BookAdapter
-import uz.itschool.handybook.adapter.BookPageAdapter
-import uz.itschool.handybook.adapter.FilterAdapter
+import coil.load
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import uz.itschool.handybook.databinding.FragmentHomeBinding
 import uz.itschool.handybook.model.Filter
-import uz.itschool.handybook.model.book_pager
 import uz.itschool.handybook.R
-import uz.itschool.handybook.model.Book
+import uz.itschool.handybook.adapter.FilterAdapter
+import uz.itschool.handybook.model.BookList
+import uz.itschool.handybook.model.MainBook
+import uz.itschool.handybook.retrofit.APIClient
+import uz.itschool.handybook.retrofit.APIService
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,11 +34,6 @@ class Home : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var listRoman: MutableList<Book>
-    private lateinit var listFilter: MutableList<Filter>
-    private lateinit var listDarslik: MutableList<Book>
-    private lateinit var listQissa: MutableList<Book>
-    private lateinit var listPagerBook: MutableList<book_pager>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,173 +48,53 @@ class Home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        listFilter = mutableListOf()
-        listRoman = mutableListOf()
-        listDarslik = mutableListOf()
-        listQissa = mutableListOf()
-        listPagerBook = mutableListOf()
-        LoadFilter()
-//        LoadRoman()
-//        LoadDarslik()
-//        LoadQissa()
-        LoadPagerBook()
-
-        val viewPager = BookPageAdapter(listPagerBook, requireContext())
-        binding.viewPager2.adapter = viewPager
-
-        val handler = Handler()
-        var origPosition: Int = 0
-        binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                val runnable = Runnable { binding.viewPager2.currentItem = position + 1 }
-                if (position < (binding.viewPager2.adapter?.itemCount ?: 0)) {
-                    handler.postDelayed(runnable, 3000)
-                }
+        var api = APIClient.getInstance().create(APIService::class.java)
+        api.getMainBook().enqueue(object :retrofit2.Callback<MainBook>{
+            override fun onResponse(call: Call<MainBook>, response: Response<MainBook>) {
+                binding.mainBookImg.load(response.body()?.image)
+                binding.mainBookName.text = "${response.body()?.author}ning '${response.body()?.name}' asari"
             }
 
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-
-                if (state == SCROLL_STATE_DRAGGING) handler.removeMessages(0)
+            override fun onFailure(call: Call<MainBook>, t: Throwable) {
+                Log.d("TAG", "onFailure:$t")
             }
+
         })
-        binding.viewPager2.setOnClickListener {
-            handler.removeMessages(0)
 
-            binding.viewPager2.currentItem = ++binding.viewPager2.currentItem
-        }
+        api.getAllCategories().enqueue(object :Callback<List<String>>{
+            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+                val categories = response.body()!!
+                binding.filter.adapter = FilterAdapter(categories, requireContext(), object :FilterAdapter.OnCLick{
+                    override fun onCLick(category: String) {
+                        if(category == ""){
+                            api.getAllBooks().enqueue(object :Callback<BookList>{
+                                override fun onResponse(
+                                    call: Call<BookList>,
+                                    response: Response<BookList>
+                                ) {
+                                    TODO("Not yet implemented")
+                                }
 
-        val filter = FilterAdapter(listFilter, object : FilterAdapter.MyBook {
-            override fun onItemClick(filter: Filter) {
-                val bundle = bundleOf("name" to filter)
-                findNavController().navigate(R.id.action_main_to_romanFragment, bundle)
+                                override fun onFailure(call: Call<BookList>, t: Throwable) {
+                                    TODO("Not yet implemented")
+                                }
+
+                            })
+                        }
+                    }
+
+                })
             }
-        }, requireContext())
 
-        binding.filter.adapter = filter
-        binding.filter.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        val adapter = BookAdapter(listRoman, object : BookAdapter.MyBook {
-            override fun onItemClick(book: Book) {
-                val bundle = bundleOf("book" to book)
-                findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
+            override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                TODO("Not yet implemented")
             }
-        }, requireContext())
 
-        binding.roman.adapter = adapter
-        binding.roman.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        })
 
-        val adapter2 = BookAdapter(listDarslik, object : BookAdapter.MyBook {
-            override fun onItemClick(book: Book) {
-                val bundle = bundleOf("book" to book)
-                findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
-            }
-        }, requireContext())
-        binding.darslik.adapter = adapter2
-        binding.darslik.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        val adapter3 = BookAdapter(listQissa, object : BookAdapter.MyBook {
-            override fun onItemClick(book: Book) {
-                val bundle = bundleOf("book" to book)
-                findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
-            }
-        }, requireContext())
-        binding.qissalar.adapter = adapter3
-        binding.qissalar.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         return binding.root
-    }
-
-//    private fun LoadRoman() {
-//        listRoman.add(
-//            Book(
-//                "O'tkan kunlar",
-//                "Abdulla Qodiriy",
-//                R.drawable.utkan_kunlar,
-//                roman = true
-//            )
-//        )
-//        listRoman.add(
-//            Book(
-//                "Ufq",
-//                "Said Ahmad",
-//                R.drawable.ufq,
-//                roman = true
-//            )
-//        )
-//        listRoman.add(
-//            Book(
-//                "Manaschi",
-//                "Abdulhamid Ismoil",
-//                R.drawable.manaschi,
-//                roman = true
-//            )
-//        )
-//        listRoman.add(
-//            Book(
-//                "Sarob",
-//                "Abdulla Qahhor",
-//                R.drawable.sarob,
-//                roman = true
-//            )
-//        )
-//    }
-//
-//    private fun LoadDarslik() {
-//        listDarslik.add(
-//            Books(
-//                "Matematika",
-//                "6-sinf",
-//                R.drawable.matem,
-//                darslik = true
-//            )
-//        )
-//        listDarslik.add(
-//            Books(
-//                "Fizika",
-//                "7-sinf",
-//                R.drawable.fizika,
-//                darslik = true
-//            )
-//        )
-//    }
-//
-//    private fun LoadQissa() {
-//        listQissa.add(
-//            Books(
-//                "Dunyoning ishlari",
-//                "O'tkir Hoshimov",
-//                R.drawable.dunyoning_ishlari,
-//                qissa = true
-//            )
-//        )
-//        listQissa.add(
-//            Books(
-//                "Qariya",
-//                "Abbos Said",
-//                R.drawable.apple,
-//                darslik = true
-//            )
-//        )
-//    }
-
-    private fun LoadFilter() {
-        listFilter.add(Filter("Barchasi", state = true))
-        listFilter.add(Filter("Darsliklar"))
-        listFilter.add(Filter("Diniy kitoblar"))
-        listFilter.add(Filter("Bepul kitoblar"))
-        listFilter.add(Filter("Romanlar"))
-        listFilter.add(Filter("Qissalar"))
-    }
-
-    private fun LoadPagerBook() {
-        listPagerBook.add(book_pager("Ufq romani", R.drawable.ufq))
-        listPagerBook.add(book_pager("O'tkan kunlar romani", R.drawable.utkan_kunlar))
     }
 
     companion object {

@@ -24,27 +24,77 @@
             tools:listitem="@layout/filter_item" />
 
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager2"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainBookContainer"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="70dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filter" />
+            app:layout_constraintTop_toBottomOf="@+id/filter"
+            android:background="@color/dark_blue">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="41dp"
+                android:layout_height="43dp"
+                android:src="@drawable/circle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/mainBookName"
+                android:layout_width="158dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="28dp"
+                android:text="O'tkir Hoshimovning \u0022Bahor qaytmaydi\u0022 asari"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button"
+                android:layout_width="100dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="100dp"
+                android:background="@drawable/border"
+                android:text="Hoziroq o'qish"
+                android:textSize="9sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/mainBookImg"
+            android:layout_width="200dp"
+            android:layout_height="190dp"
+            android:layout_marginStart="180dp"
+            android:src="@drawable/bahor_book"
+            android:rotation="12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.483"
+            app:layout_constraintStart_toStartOf="@+id/mainBookContainer"
+            app:layout_constraintTop_toBottomOf="@+id/filter"
+            app:layout_constraintVertical_bias="0.087" />
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:fontFamily="@font/montserrat_bold"
             android:text="Romanlar"
             android:textColor="@color/dark_blue"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/viewPager2"
-            app:layout_constraintTop_toBottomOf="@+id/viewPager2" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainBookImg" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/roman"

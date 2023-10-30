@@ -57,16 +57,16 @@ class PersonalFragment : Fragment() {
         user = arguments?.getSerializable("user") as User
         var userList = ShPHelper.getInstance(requireContext()).getUser()
         img = binding.imageView7
-        for (i in userList) {
-            if (i == user) {
-                if (i.url != null) {
-                    img.setImageURI(Uri.parse(i.url))
-                }
-                else{
-                    img.setImageResource(R.drawable.user)
-                }
-            }
-        }
+//        for (i in userList) {
+//            if (i == user) {
+//                if (i.url != null) {
+//                    img.setImageURI(Uri.parse(i.url))
+//                }
+//                else{
+//                    img.setImageResource(R.drawable.user)
+//                }
+//            }
+//        }
         binding.textView12.text = user.name + " " + user.surname
         binding.textView13.text = user.email
         binding.back.setOnClickListener {

@@ -9,6 +9,6 @@ data class User(
     var email: String,
     var password: String,
     var status: Boolean = false,
-    var url: String? = null,
-    var access_token: String
+//    var url: String? = null,
+//    var access_token: String
 ): Serializable
