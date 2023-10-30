@@ -13,6 +13,7 @@ import retrofit2.Response
 import uz.itschool.handybook.databinding.FragmentHomeBinding
 import uz.itschool.handybook.model.Filter
 import uz.itschool.handybook.R
+import uz.itschool.handybook.adapter.BookAdapter
 import uz.itschool.handybook.adapter.FilterAdapter
 import uz.itschool.handybook.model.BookList
 import uz.itschool.handybook.model.MainBook
@@ -72,7 +73,8 @@ class Home : Fragment() {
                                     call: Call<BookList>,
                                     response: Response<BookList>
                                 ) {
-                                    TODO("Not yet implemented")
+                                    var books = response.body()?.books!!
+//                                    binding.booksRv.adapter = BookAdapter()
                                 }
 
                                 override fun onFailure(call: Call<BookList>, t: Throwable) {
