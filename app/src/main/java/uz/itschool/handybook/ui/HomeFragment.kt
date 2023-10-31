@@ -50,11 +50,14 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         var api = APIClient.getInstance().create(APIService::class.java)
-        api.getMainBook().enqueue(object :retrofit2.Callback<MainBook>{
+
+        api.getMainBook().enqueue(object :Callback<MainBook>{
             override fun onResponse(call: Call<MainBook>, response: Response<MainBook>) {
                 binding.mainBookImg.load(response.body()?.image)
                 binding.mainBookName.text = "${response.body()?.author}ning '${response.body()?.name}' asari"
+                Log.d("TAG", "on:${response.body()}")
             }
 
             override fun onFailure(call: Call<MainBook>, t: Throwable) {
@@ -86,7 +89,7 @@ class HomeFragment : Fragment() {
                                 }
 
                                 override fun onFailure(call: Call<BookList>, t: Throwable) {
-                                    Log.d("TAG", "$t")
+                                    Log.d("TAG", "onFailure:$t")
                                 }
 
                             })
@@ -108,7 +111,7 @@ class HomeFragment : Fragment() {
                                 }
 
                                 override fun onFailure(call: Call<BookList>, t: Throwable) {
-                                    Log.d("TAG", "$t")
+                                    Log.d("TAG", "onFailure:$t")
                                 }
 
                             })
@@ -119,7 +122,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                Log.d("TAG", "$t")
+                Log.d("TAG", "onFailure:$t")
             }
 
         })

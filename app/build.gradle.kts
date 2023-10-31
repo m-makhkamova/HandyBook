@@ -57,4 +57,6 @@ dependencies {
     
     implementation ("io.coil-kt:coil-compose:2.4.0")
 
+    implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.1")
+
 }

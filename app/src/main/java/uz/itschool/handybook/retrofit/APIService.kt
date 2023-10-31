@@ -22,6 +22,7 @@ interface APIService {
 
     @GET("/book-api/main-book")
     fun getMainBook(): Call<MainBook>
+
     @POST("/book-api/login")
     fun login(@Body login: Login): Call<User>
 
@@ -36,6 +37,9 @@ interface APIService {
 
     @GET("/book-api/comment/{id}")
     fun getComment(@Query("id") id:Int): Call<CommentList>
+
+    @GET("/book-api/search-name/{name}")
+    fun searchByName(@Query("name") name:String):Call<BookList>
 
 //    @POST("/comment-api/create")
 //    fun writeComment(@Body book_id:Int, user_id:Int, text:String, rating:Double):Call<Comment>

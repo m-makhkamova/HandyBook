@@ -1,17 +1,24 @@
 package uz.itschool.handybook.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import retrofit2.Call
+import retrofit2.Response
 import uz.itschool.handybook.adapter.BookGridAdapter
 import uz.itschool.handybook.databinding.FragmentSearchBinding
 import uz.itschool.handybook.R
+import uz.itschool.handybook.adapter.BookAdapter
 import uz.itschool.handybook.model.Book
+import uz.itschool.handybook.model.BookList
+import uz.itschool.handybook.retrofit.APIClient
+import uz.itschool.handybook.retrofit.APIService
+import javax.security.auth.callback.Callback
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +32,7 @@ private const val ARG_PARAM1 = "param1"
 class SearchFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
-    private lateinit var listRoman: MutableList<Book>
+    var searchLast = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,116 +46,45 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentSearchBinding.inflate(inflater, container, false)
-        listRoman = mutableListOf()
-//        LoadDarslik()
-//        LoadListBooks()
-//        LoadQissa()
-        var adapter = BookGridAdapter(listRoman, object : BookGridAdapter.MyBook {
-            override fun onItemClick(book: Book) {
-                val bundle = bundleOf("book" to book)
-                findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
+        var api = APIClient.getInstance().create(APIService::class.java)
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
             }
-        }, requireContext())
-        binding.rv.layoutManager =
-            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-        binding.rv.adapter = adapter
-       // binding.search.addTextChangedListener { it ->
-//            val filter = mutableListOf<Books>()
-//            if (it != null) {
-//                var fav = listRoman
-//                for (c in fav) {
-//                    if (c.name.lowercase().contains(it.toString().lowercase())) {
-//                        filter.add(c)
-//                    }
-//                }
-//                var adapter2 = BookGridAdapter(filter, object : BookGridAdapter.MyBook {
-//                    override fun onItemClick(book: Books) {
-//                        val bundle = bundleOf("book" to book)
-//                        findNavController().navigate(
-//                            R.id.action_main_to_moreFragment,
-//                            bundle
-//                        )
-//                    }
-//
-//                }, requireActivity())
-//                binding.rv.adapter = adapter2
-//            }
-    //    }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText == searchLast) return false
+                api.searchByName(newText!!).enqueue(object :retrofit2.Callback<BookList> {
+                    override fun onResponse(call: Call<BookList>, response: Response<BookList>) {
+                        val books = response.body()?.books!!
+                        binding.searchedRv.adapter = BookAdapter(books, object: BookAdapter.OnClick{
+                            override fun onItemClick(book: Book) {
+                                val bundle = Bundle()
+                                bundle.putSerializable("item", book)
+                                findNavController().navigate(
+                                    R.id.action_main_to_moreFragment,
+                                    bundle)
+                            }
+                        }, requireContext())
+                    }
+
+                    override fun onFailure(call: Call<BookList>, t: Throwable) {
+                        Log.d("TAG", "onFailure:$t")
+                    }
+
+
+                })
+                searchLast = newText
+
+                return true
+            }
+
+
+        })
+
         return binding.root
     }
-
-//    private fun LoadListBooks() {
-//        listRoman.add(
-//            Books(
-//                "O'tkan kunlar",
-//                "Abdulla Qodiriy",
-//                R.drawable.utkan_kunlar,
-//                roman = true
-//            )
-//        )
-//        listRoman.add(
-//            Books(
-//                "Ufq",
-//                "Said Ahmad",
-//                R.drawable.ufq,
-//                roman = true
-//            )
-//        )
-//        listRoman.add(
-//            Books(
-//                "Manaschi",
-//                "Abdulhamid Ismoil",
-//                R.drawable.manaschi,
-//                roman = true
-//            )
-//        )
-//        listRoman.add(
-//            Books(
-//                "Sarob",
-//                "Abdulla Qahhor",
-//                R.drawable.sarob,
-//                roman = true
-//            )
-//        )
-//    }
-//
-//    private fun LoadDarslik() {
-//        listRoman.add(
-//            Books(
-//                "Matematika",
-//                "6-sinf",
-//                R.drawable.matem,
-//                darslik = true
-//            )
-//        )
-//        listRoman.add(
-//            Books(
-//                "Fizika",
-//                "7-sinf",
-//                R.drawable.fizika,
-//                darslik = true
-//            )
-//        )
-//    }
-//
-//    private fun LoadQissa() {
-//        listRoman.add(
-//            Books(
-//                "Dunyoning ishlari",
-//                "O'tkir Hoshimov",
-//                R.drawable.dunyoning_ishlari,
-//                qissa = true
-//            )
-//        )
-//        listRoman.add(
-//            Books(
-//                "Qariya",
-//                "Abbos Said",
-//                R.drawable.apple,
-//                darslik = true
-//            )
-//        )
-//    }
 
     companion object {
         /**
