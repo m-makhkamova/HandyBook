@@ -8,10 +8,7 @@
         android:id="@+id/search"
         android:icon="@drawable/search"
         android:title="Search" />
-    <item
-        android:id="@+id/feather"
-        android:icon="@drawable/feather"
-        android:title="Feather" />
+
     <item
         android:id="@+id/saved"
         android:icon="@drawable/saved"

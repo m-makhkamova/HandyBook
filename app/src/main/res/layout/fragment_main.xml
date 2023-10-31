@@ -60,18 +60,18 @@
                 android:id="@+id/bottom_menu"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:background="@color/white"
+                android:background="@drawable/menu_background"
                 android:soundEffectsEnabled="true"
                 app:itemActiveIndicatorStyle="@drawable/bottom_menu_color"
                 app:itemIconTint="@color/grey"
-                app:itemRippleColor="@color/dark_blue"
-                app:itemTextAppearanceActive="@color/dark_blue"
+                app:itemRippleColor="#435697"
+                app:itemTextAppearanceActive="@color/grey"
                 app:itemTextAppearanceInactive="@color/grey"
-                app:itemTextColor="@color/dark_blue"
+                app:itemTextColor="@color/grey"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:menu="@menu/bottom_menu" />
+                app:menu="@menu/bottom_menu"  />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/container"

@@ -11,10 +11,6 @@
             android:icon="@drawable/search"
             android:title="Qidiruv" />
         <item
-            android:id="@+id/nav_feather"
-            android:icon="@drawable/feather"
-            android:title="Maqolalar" />
-        <item
             android:id="@+id/nav_saved"
             android:icon="@drawable/saved"
             android:title="Saqlangan kitoblar" />

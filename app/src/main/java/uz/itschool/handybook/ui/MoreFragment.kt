@@ -43,12 +43,8 @@ class MoreFragment : Fragment() {
         val books = ShPHelper.getInstance(requireContext()).getBooks()
         val item = arguments?.getSerializable("book") as Book
 
-        if (books.contains(item)) {
-            binding.saved.setImageResource(R.drawable.saved_filled)
-        } else {
-            binding.saved.setImageResource(R.drawable.saved)
-        }
-//        binding.image.setImageResource(item.image)
+
+        binding.saved.setImageResource(R.drawable.saved)
         binding.name.text = item.name
         binding.author.text = item.author
         binding.back.setOnClickListener {
@@ -57,12 +53,11 @@ class MoreFragment : Fragment() {
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY -> // the delay of the extension of the FAB is set for 12 items    if (scrollY > oldScrollY + 12 && binding.floatingActionButton.isShown) {
             binding.floatingActionButton.hide()
             binding.oqish.hide()
-            // the delay of the extension of the FAB is set for 12 items
+
             if (scrollY < oldScrollY - 12 && !binding.floatingActionButton.isShown) {
                 binding.floatingActionButton.show()
                 binding.oqish.show()
             }
-            // if the nestedScrollView is at the first item of the list then the    // floating action should be in show state
             if (scrollY == 0) {
                 binding.floatingActionButton.show()
                 binding.oqish.show()

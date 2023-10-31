@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Type.MoreFragment">
+    tools:context=".ui.MoreFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -157,11 +157,36 @@
                 app:layout_constraintStart_toStartOf="@+id/name"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleType="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="170dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/author"
+                app:srcCompat="@drawable/baseline_star_24" />
+
             <TextView
+                android:id="@+id/ratingOfBook"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="1dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="5.0"
+                android:layout_marginTop="13dp"
+                app:layout_goneMarginStart="180dp"
+                android:textColor="@color/dark_blue"
+                android:textSize="14dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/author" />
+
+            <TextView
+                android:id="@+id/textView8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="@string/text_more"
@@ -170,7 +195,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/author" />
+                app:layout_constraintTop_toBottomOf="@+id/ratingOfBook" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
