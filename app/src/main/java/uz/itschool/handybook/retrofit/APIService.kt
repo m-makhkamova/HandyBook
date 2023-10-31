@@ -32,7 +32,7 @@ interface APIService {
     fun getAllCategories(): Call<List<String>>
 
     @GET("/products/category/{type_name}")
-    fun getProductsByCategory(@Query("type_name") type_name: String): Call<BookList>
+    fun getBooksByCategory(@Query("type_name") type_name: String): Call<BookList>
 
     @GET("/book-api/comment/{id}")
     fun getComment(@Query("id") id:Int): Call<CommentList>

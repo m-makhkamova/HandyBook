@@ -19,10 +19,10 @@ private const val ARG_PARAM1 = "param1"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Search.newInstance] factory method to
+ * Use the [SearchFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Search : Fragment() {
+class SearchFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private lateinit var listRoman: MutableList<Book>
@@ -162,7 +162,7 @@ class Search : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String) =
-            Search().apply {
+            SearchFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                 }

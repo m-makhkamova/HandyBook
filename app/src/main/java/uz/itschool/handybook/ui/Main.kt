@@ -1,23 +1,17 @@
 package uz.itschool.handybook.ui
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import uz.itschool.handybook.databinding.FragmentMainBinding
-import uz.itschool.handybook.model.User
 import uz.itschool.handybook.util.ShPHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -102,10 +96,10 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
         toggle.syncState()
         if (savedInstanceState == null) {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.container, Home()).commit();
+                .replace(R.id.container, HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
-        loadFragment(Home())
+        loadFragment(HomeFragment())
 //        binding.avatar.setOnClickListener {
 //            bundle.putSerializable("user", user)
 //            findNavController().navigate(R.id.action_main_to_personalFragment, bundle)
@@ -114,7 +108,7 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
         bottomMenu.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
-                    loadFragment(Home())
+                    loadFragment(HomeFragment())
                     toolbar.title = "Bosh Sahifa"
                     toolbar.setTitleTextAppearance(
                         requireContext(),
@@ -125,7 +119,7 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
                 }
 
                 R.id.search -> {
-                    loadFragment(Search())
+                    loadFragment(SearchFragment())
                     toolbar.title = "Qidiruv"
                     toolbar.setTitleTextAppearance(
                         requireContext(),
@@ -169,7 +163,7 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
                 }
 
                 else -> {
-                    loadFragment(Home())
+                    loadFragment(HomeFragment())
                     toolbar.title = "Bosh Sahifa"
                     toolbar.setTitleTextAppearance(
                         requireContext(),
@@ -188,7 +182,7 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
         when (item.itemId) {
             R.id.nav_home -> {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, Home()).commit()
+                    .replace(R.id.container, HomeFragment()).commit()
                 bottomMenu.selectedItemId = R.id.home
             }
 
@@ -212,7 +206,7 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
             R.id.nav_search -> {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, Search()).commit()
+                    .replace(R.id.container, SearchFragment()).commit()
                 bottomMenu.selectedItemId = R.id.search
             }
 

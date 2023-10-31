@@ -52,22 +52,8 @@
             android:id="@+id/action_main_to_moreFragment"
             app:destination="@id/moreFragment" />
         <action
-            android:id="@+id/action_main_to_romanFragment"
-            app:destination="@id/romanFragment" />
-        <action
             android:id="@+id/action_main_to_splash"
             app:destination="@id/splash" />
-    </fragment>
-    <fragment
-        android:id="@+id/romanFragment"
-        android:name="com.example.dorixona.Type.RomanFragment"
-        android:label="RomanFragment" >
-        <action
-            android:id="@+id/action_romanFragment_to_moreFragment"
-            app:destination="@id/moreFragment" />
-        <action
-            android:id="@+id/action_romanFragment_to_personalFragment"
-            app:destination="@id/personalFragment" />
     </fragment>
     <fragment
         android:id="@+id/moreFragment"

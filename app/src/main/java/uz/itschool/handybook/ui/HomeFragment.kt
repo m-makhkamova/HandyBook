@@ -6,15 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import coil.load
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import uz.itschool.handybook.databinding.FragmentHomeBinding
-import uz.itschool.handybook.model.Filter
 import uz.itschool.handybook.R
 import uz.itschool.handybook.adapter.BookAdapter
+import uz.itschool.handybook.databinding.FragmentHomeBinding
 import uz.itschool.handybook.adapter.FilterAdapter
+import uz.itschool.handybook.model.Book
 import uz.itschool.handybook.model.BookList
 import uz.itschool.handybook.model.MainBook
 import uz.itschool.handybook.retrofit.APIClient
@@ -28,10 +29,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
+ * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Home : Fragment() {
+class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -74,11 +75,40 @@ class Home : Fragment() {
                                     response: Response<BookList>
                                 ) {
                                     var books = response.body()?.books!!
-//                                    binding.booksRv.adapter = BookAdapter()
+                                    binding.booksRv.adapter = BookAdapter(books, object :BookAdapter.OnClick{
+                                        override fun onItemClick(book: Book) {
+                                            val bundle = Bundle()
+                                            bundle.putSerializable("item", book)
+                                            findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
+                                        }
+
+                                    }, requireContext())
                                 }
 
                                 override fun onFailure(call: Call<BookList>, t: Throwable) {
-                                    TODO("Not yet implemented")
+                                    Log.d("TAG", "$t")
+                                }
+
+                            })
+                        }else{
+                            api.getBooksByCategory(category).enqueue(object :Callback<BookList>{
+                                override fun onResponse(
+                                    call: Call<BookList>,
+                                    response: Response<BookList>
+                                ) {
+                                    var books = response.body()?.books!!
+                                    binding.booksRv.adapter = BookAdapter(books, object :BookAdapter.OnClick{
+                                        override fun onItemClick(book: Book) {
+                                            val bundle = Bundle()
+                                            bundle.putSerializable("item", book)
+                                            findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
+                                        }
+
+                                    }, requireContext())
+                                }
+
+                                override fun onFailure(call: Call<BookList>, t: Throwable) {
+                                    Log.d("TAG", "$t")
                                 }
 
                             })
@@ -89,7 +119,7 @@ class Home : Fragment() {
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Log.d("TAG", "$t")
             }
 
         })
@@ -111,7 +141,7 @@ class Home : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Home().apply {
+            HomeFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

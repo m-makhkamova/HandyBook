@@ -9,7 +9,7 @@ import uz.itschool.handybook.model.Book
 
 class BookAdapter(
     var bookList: MutableList<Book>,
-    var myBook: MyBook,
+    var onClick: OnClick,
     var context: Context
 ) : RecyclerView.Adapter<BookAdapter.MyHolder>() {
 
@@ -33,7 +33,7 @@ class BookAdapter(
 //        holder.img.setImageResource(book.image)
         holder.author.text = book.author
         holder.itemView.setOnClickListener {
-            myBook.onItemClick(book)
+            onClick.onItemClick(book)
         }
 
     }
@@ -42,7 +42,7 @@ class BookAdapter(
         return bookList.size
     }
 
-    interface MyBook {
+    interface OnClick {
         fun onItemClick(book: Book)
     }
 }
