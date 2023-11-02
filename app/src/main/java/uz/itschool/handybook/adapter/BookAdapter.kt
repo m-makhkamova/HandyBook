@@ -19,6 +19,7 @@ class BookAdapter(
         var name = binding.bookName
         var img = binding.bookImg
         var author = binding.bookAuthor
+        var rating = binding.ratingOfBook
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
@@ -37,7 +38,7 @@ class BookAdapter(
         holder.itemView.setOnClickListener {
             onClick.onItemClick(book)
         }
-
+        holder.rating.text = book.reyting.toString()
 
     }
 

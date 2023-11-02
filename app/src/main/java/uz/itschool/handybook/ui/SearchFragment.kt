@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import uz.itschool.handybook.databinding.FragmentSearchBinding
 import uz.itschool.handybook.R
@@ -52,7 +53,7 @@ class SearchFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText == searchLast) return false
-                api.searchByName(newText!!).enqueue(object :retrofit2.Callback<List<Book>> {
+                api.searchByName(newText!!).enqueue(object : Callback<List<Book>> {
                     override fun onResponse(call: Call<List<Book>>, response: Response<List<Book>>) {
                         val books = response.body()!!
                         binding.searchedRv.adapter = BookAdapter(books, object: BookAdapter.OnClick{

@@ -53,20 +53,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        api.getMainBook().enqueue(object :Callback<MainBook>{
-            override fun onResponse(call: Call<MainBook>, response: Response<MainBook>) {
-                binding.mainBookImg.load(response.body()?.image)
-                binding.mainBookName.text = "${response.body()?.author}ning '${response.body()?.name}' asari"
-                Log.d("TAG", "on:${response.body()}")
-            }
-
-            override fun onFailure(call: Call<MainBook>, t: Throwable) {
-                Log.d("TAG", "onFailure:$t")
-            }
-
-        })
-
-
+        getBooks(requireContext())
         getCategories(requireContext())
 
         return binding.root
@@ -146,6 +133,27 @@ private fun getCategories(context: Context){
 
     })
 }
+
+    private fun getBooks(context: Context){
+        api.getAllBooks().enqueue(object :Callback<List<Book>>{
+            override fun onResponse(call: Call<List<Book>>, response: Response<List<Book>>) {
+                var books = response.body()!!
+                binding.booksRv.adapter = BookAdapter(books, object :BookAdapter.OnClick{
+                    override fun onItemClick(book: Book) {
+                        val bundle = Bundle()
+                        bundle.putSerializable("item", book)
+                        findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
+                    }
+
+                }, context)
+            }
+
+            override fun onFailure(call: Call<List<Book>>, t: Throwable) {
+                Log.d("TAG", "onFailure: $t")
+            }
+
+        })
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

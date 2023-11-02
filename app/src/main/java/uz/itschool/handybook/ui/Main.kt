@@ -131,7 +131,7 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
 
                 R.id.saved -> {
-                    loadFragment(Saved())
+                    loadFragment(SavedFragment())
                     toolbar.title = "Saqlangan kitoblar"
                     toolbar.setTitleTextAppearance(
                         requireContext(),
@@ -184,7 +184,7 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
             R.id.nav_saved -> {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, Saved()).commit()
+                    .replace(R.id.container, SavedFragment()).commit()
                 bottomMenu.selectedItemId = R.id.saved
             }
 

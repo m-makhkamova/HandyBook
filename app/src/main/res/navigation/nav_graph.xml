@@ -57,10 +57,10 @@
     </fragment>
     <fragment
         android:id="@+id/moreFragment"
-        android:name="com.example.dorixona.Type.MoreFragment"
+        android:name="uz.itschool.handybook.ui.MoreFragment"
         android:label="MoreFragment" />
     <fragment
         android:id="@+id/personalFragment"
-        android:name="com.example.dorixona.Type.PersonalFragment"
+        android:name="uz.itschool.handybook.ui.PersonalFragment"
         android:label="PersonalFragment" />
 </navigation>

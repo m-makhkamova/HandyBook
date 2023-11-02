@@ -21,15 +21,14 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Saved.newInstance] factory method to
+ * Use the [SavedFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Saved : Fragment() {
+class SavedFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var listRoman: MutableList<Book>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +43,13 @@ class Saved : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var binding = FragmentSavedBinding.inflate(inflater, container, false)
-        listRoman = ShPHelper.getInstance(requireContext()).getBooks()
-        var adapter = BookGridAdapter(listRoman, object : BookGridAdapter.MyBook {
+        var savedBooks = ShPHelper.getInstance(requireContext()).getBooks()
+        var adapter = BookGridAdapter(savedBooks, object : BookGridAdapter.MyBook {
             override fun onItemClick(book: Book) {
                 val bundle = bundleOf("book" to book)
                 findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
             }
         }, requireContext())
-        binding.rv.layoutManager =
-            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         binding.rv.adapter = adapter
         return binding.root
     }
@@ -69,7 +66,7 @@ class Saved : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Saved().apply {
+            SavedFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

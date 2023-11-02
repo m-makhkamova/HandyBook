@@ -38,7 +38,7 @@ interface APIService {
     @GET("/book-api/comment/{id}")
     fun getComment(@Query("id") id:Int): Call<CommentList>
 
-    @GET("/book-api/search-name/{name}")
+    @GET("/book-api/search-name/")
     fun searchByName(@Query("name") name:String):Call<List<Book>>
 
 //    @POST("/comment-api/create")

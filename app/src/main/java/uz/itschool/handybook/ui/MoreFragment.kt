@@ -2,11 +2,13 @@ package uz.itschool.handybook.ui
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
+import coil.load
 import uz.itschool.handybook.R
 import uz.itschool.handybook.databinding.FragmentMoreBinding
 import uz.itschool.handybook.model.Book
@@ -41,14 +43,19 @@ class MoreFragment : Fragment() {
     ): View? {
         val binding = FragmentMoreBinding.inflate(inflater, container, false)
         val books = ShPHelper.getInstance(requireContext()).getBooks()
-        val item = arguments?.getSerializable("book") as Book
+        val book = arguments?.getSerializable("item") as Book
 
-
+        binding.ratingOfBook.text = book.reyting.toString()
+        binding.image.load(book.image)
         binding.saved.setImageResource(R.drawable.saved)
-        binding.name.text = item.name
-        binding.author.text = item.author
+        binding.name.text = book.name
+        binding.author.text = book.author
         binding.back.setOnClickListener {
             requireActivity().onBackPressed()
+        }
+
+        if(books.contains(book)){
+            binding.saved.setImageResource(R.drawable.saved_filled)
         }
         binding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY -> // the delay of the extension of the FAB is set for 12 items    if (scrollY > oldScrollY + 12 && binding.floatingActionButton.isShown) {
             binding.floatingActionButton.hide()
@@ -67,12 +74,12 @@ class MoreFragment : Fragment() {
 
         }
         binding.saved.setOnClickListener {
-            if (!books.contains(item)) {
+            if (!books.contains(book)) {
                 binding.saved.setImageResource(R.drawable.saved_filled)
-                ShPHelper.getInstance(requireContext()).setBooks(item)
+                ShPHelper.getInstance(requireContext()).setBooks(book)
             } else {
                 binding.saved.setImageResource(R.drawable.saved)
-                ShPHelper.getInstance(requireContext()).removeBook(item)
+                ShPHelper.getInstance(requireContext()).removeBook(book)
             }
         }
         binding.EBook.setOnClickListener {
