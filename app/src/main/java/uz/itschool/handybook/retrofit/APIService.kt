@@ -6,8 +6,8 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import uz.itschool.handybook.model.Book
-import uz.itschool.handybook.model.BookList
 import uz.itschool.handybook.model.CommentList
+import uz.itschool.handybook.model.Filter
 import uz.itschool.handybook.model.Login
 import uz.itschool.handybook.model.MainBook
 import uz.itschool.handybook.model.User
@@ -15,7 +15,7 @@ import uz.itschool.handybook.model.User
 interface APIService {
 
     @GET("/book-api")
-    fun getAllBooks(): Call<BookList>
+    fun getAllBooks(): Call<List<Book>>
 
     @GET("/book-api/{id}")
     fun getBook(@Query("id") id:Int): Call<Book>
@@ -30,16 +30,16 @@ interface APIService {
     fun register(@Body register: User): Call<User>
 
     @GET("/book-api/all-category")
-    fun getAllCategories(): Call<List<String>>
+    fun getAllCategories(): Call<List<Filter>>
 
-    @GET("/products/category/{type_name}")
-    fun getBooksByCategory(@Query("type_name") type_name: String): Call<BookList>
+    @GET("/products/category/")
+    fun getBooksByCategory(@Query("name") name: String): Call<List<Book>>
 
     @GET("/book-api/comment/{id}")
     fun getComment(@Query("id") id:Int): Call<CommentList>
 
     @GET("/book-api/search-name/{name}")
-    fun searchByName(@Query("name") name:String):Call<BookList>
+    fun searchByName(@Query("name") name:String):Call<List<Book>>
 
 //    @POST("/comment-api/create")
 //    fun writeComment(@Body book_id:Int, user_id:Int, text:String, rating:Double):Call<Comment>

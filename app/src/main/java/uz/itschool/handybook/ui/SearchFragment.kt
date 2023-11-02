@@ -10,15 +10,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import retrofit2.Call
 import retrofit2.Response
-import uz.itschool.handybook.adapter.BookGridAdapter
 import uz.itschool.handybook.databinding.FragmentSearchBinding
 import uz.itschool.handybook.R
 import uz.itschool.handybook.adapter.BookAdapter
 import uz.itschool.handybook.model.Book
-import uz.itschool.handybook.model.BookList
 import uz.itschool.handybook.retrofit.APIClient
 import uz.itschool.handybook.retrofit.APIService
-import javax.security.auth.callback.Callback
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,9 +52,9 @@ class SearchFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText == searchLast) return false
-                api.searchByName(newText!!).enqueue(object :retrofit2.Callback<BookList> {
-                    override fun onResponse(call: Call<BookList>, response: Response<BookList>) {
-                        val books = response.body()?.books!!
+                api.searchByName(newText!!).enqueue(object :retrofit2.Callback<List<Book>> {
+                    override fun onResponse(call: Call<List<Book>>, response: Response<List<Book>>) {
+                        val books = response.body()!!
                         binding.searchedRv.adapter = BookAdapter(books, object: BookAdapter.OnClick{
                             override fun onItemClick(book: Book) {
                                 val bundle = Bundle()
@@ -69,7 +66,7 @@ class SearchFragment : Fragment() {
                         }, requireContext())
                     }
 
-                    override fun onFailure(call: Call<BookList>, t: Throwable) {
+                    override fun onFailure(call: Call<List<Book>>, t: Throwable) {
                         Log.d("TAG", "onFailure:$t")
                     }
 

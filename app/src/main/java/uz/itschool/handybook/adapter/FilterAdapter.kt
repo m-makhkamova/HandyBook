@@ -11,7 +11,7 @@ import uz.itschool.handybook.databinding.FilterItemBinding
 import uz.itschool.handybook.model.Filter
 
 class FilterAdapter(
-    var categories: List<String>,
+    var categories: List<Filter>,
     var context: Context,
     private val categoryClicked: OnCLick
 ) : RecyclerView.Adapter<FilterAdapter.MyHolder>() {
@@ -32,9 +32,9 @@ class FilterAdapter(
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         if (position == 0) {
-            holder.name.text = "All"
+            holder.name.text = "Hammasi"
         } else {
-            holder.name.text = categories[position - 1].capitalize()
+            holder.name.text = categories[position - 1].type_name
         }
         if (current == position) {
             holder.cardView.setCardBackgroundColor(context.resources.getColor(R.color.dark_blue))
@@ -53,7 +53,7 @@ class FilterAdapter(
                     categoryClicked.onCLick("")
                 }
                 else{
-                    categoryClicked.onCLick(categories[position - 1])
+                    categoryClicked.onCLick(categories[position - 1].type_name)
                 }
             }
 

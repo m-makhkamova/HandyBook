@@ -28,7 +28,7 @@
             android:id="@+id/mainBookContainer"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filter"

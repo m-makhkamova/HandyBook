@@ -1,5 +1,6 @@
 package uz.itschool.handybook.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,10 +17,11 @@ import uz.itschool.handybook.adapter.BookAdapter
 import uz.itschool.handybook.databinding.FragmentHomeBinding
 import uz.itschool.handybook.adapter.FilterAdapter
 import uz.itschool.handybook.model.Book
-import uz.itschool.handybook.model.BookList
+import uz.itschool.handybook.model.Filter
 import uz.itschool.handybook.model.MainBook
 import uz.itschool.handybook.retrofit.APIClient
 import uz.itschool.handybook.retrofit.APIService
+import java.util.Locale.Category
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,7 +38,8 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    var api = APIClient.getInstance().create(APIService::class.java)
+    lateinit var binding: FragmentHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -49,10 +52,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        var api = APIClient.getInstance().create(APIService::class.java)
-
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         api.getMainBook().enqueue(object :Callback<MainBook>{
             override fun onResponse(call: Call<MainBook>, response: Response<MainBook>) {
                 binding.mainBookImg.load(response.body()?.image)
@@ -66,72 +66,86 @@ class HomeFragment : Fragment() {
 
         })
 
-        api.getAllCategories().enqueue(object :Callback<List<String>>{
-            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
-                val categories = response.body()!!
-                binding.filter.adapter = FilterAdapter(categories, requireContext(), object :FilterAdapter.OnCLick{
-                    override fun onCLick(category: String) {
-                        if(category == ""){
-                            api.getAllBooks().enqueue(object :Callback<BookList>{
-                                override fun onResponse(
-                                    call: Call<BookList>,
-                                    response: Response<BookList>
-                                ) {
-                                    var books = response.body()?.books!!
-                                    binding.booksRv.adapter = BookAdapter(books, object :BookAdapter.OnClick{
-                                        override fun onItemClick(book: Book) {
-                                            val bundle = Bundle()
-                                            bundle.putSerializable("item", book)
-                                            findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
-                                        }
 
-                                    }, requireContext())
-                                }
-
-                                override fun onFailure(call: Call<BookList>, t: Throwable) {
-                                    Log.d("TAG", "onFailure:$t")
-                                }
-
-                            })
-                        }else{
-                            api.getBooksByCategory(category).enqueue(object :Callback<BookList>{
-                                override fun onResponse(
-                                    call: Call<BookList>,
-                                    response: Response<BookList>
-                                ) {
-                                    var books = response.body()?.books!!
-                                    binding.booksRv.adapter = BookAdapter(books, object :BookAdapter.OnClick{
-                                        override fun onItemClick(book: Book) {
-                                            val bundle = Bundle()
-                                            bundle.putSerializable("item", book)
-                                            findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
-                                        }
-
-                                    }, requireContext())
-                                }
-
-                                override fun onFailure(call: Call<BookList>, t: Throwable) {
-                                    Log.d("TAG", "onFailure:$t")
-                                }
-
-                            })
-                        }
-                    }
-
-                })
-            }
-
-            override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                Log.d("TAG", "onFailure:$t")
-            }
-
-        })
-
-
+        getCategories(requireContext())
 
         return binding.root
     }
+private fun getCategories(context: Context){
+    api.getAllCategories().enqueue(object :Callback<List<Filter>>{
+        override fun onResponse(call: Call<List<Filter>>, response: Response<List<Filter>>) {
+            val categories = response.body()!!
+            binding.filter.setHasFixedSize(true)
+            binding.filter.adapter = FilterAdapter(categories, context, object :FilterAdapter.OnCLick{
+                override fun onCLick(category: String) {
+                    if(category == ""){
+                        api.getAllBooks().enqueue(object :Callback<List<Book>>{
+                            override fun onResponse(
+                                call: Call<List<Book>>,
+                                response: Response<List<Book>>
+                            ) {
+                                var books = response.body()!!
+                                binding.booksRv.setHasFixedSize(true)
+                                binding.booksRv.adapter = BookAdapter(books, object :BookAdapter.OnClick{
+                                    override fun onItemClick(book: Book) {
+                                        val bundle = Bundle()
+                                        bundle.putSerializable("item", book)
+                                        findNavController().navigate(R.id.action_main_to_moreFragment, bundle)
+                                    }
 
+                                }, requireContext())
+                            }
+
+                            override fun onFailure(call: Call<List<Book>>, t: Throwable) {
+                                Log.d("TAG", "onFailure:$t")
+                            }
+
+                        })
+                    }else{
+
+                        api.getBooksByCategory(category).enqueue(object :Callback<List<Book>>{
+                            override fun onResponse(
+                                call: Call<List<Book>>,
+                                response: Response<List<Book>>
+                            ) {
+                                Log.d("TAG", "onResponse: ${response.body()}")
+                                if (response.isSuccessful && response.body() != null) {
+                                    var books = response.body()!!
+                                    binding.booksRv.setHasFixedSize(true)
+                                    binding.booksRv.adapter =
+                                        BookAdapter(books, object : BookAdapter.OnClick {
+                                            override fun onItemClick(book: Book) {
+                                                val bundle = Bundle()
+                                                bundle.putSerializable("item", book)
+                                                findNavController().navigate(
+                                                    R.id.action_main_to_moreFragment,
+                                                    bundle
+                                                )
+                                            }
+
+                                        }, requireContext())
+                                    binding.booksRv.adapter
+                                }
+                            }
+
+                            override fun onFailure(call: Call<List<Book>>, t: Throwable) {
+                                Log.d("TAG", "onFailure:$t")
+                            }
+
+                        })
+                    }
+                }
+
+            })
+        }
+
+        override fun onFailure(call: Call<List<Filter>>, t: Throwable) {
+            Log.d("TAG", "onFailure:$t")
+        }
+
+
+    })
+}
     companion object {
         /**
          * Use this factory method to create a new instance of

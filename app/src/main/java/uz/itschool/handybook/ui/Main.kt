@@ -129,16 +129,6 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
                     true
                 }
 
-                R.id.feather -> {
-                    loadFragment(Feather())
-                    toolbar.title = "Maqolalar"
-                    toolbar.setTitleTextAppearance(
-                        requireContext(),
-                        R.style.MontserratSemiBoldTextAppearance
-                    )
-                    navigationView.setCheckedItem(R.id.nav_feather)
-                    true
-                }
 
                 R.id.saved -> {
                     loadFragment(Saved())
@@ -198,11 +188,6 @@ class Main : Fragment(), NavigationView.OnNavigationItemSelectedListener {
                 bottomMenu.selectedItemId = R.id.saved
             }
 
-            R.id.nav_feather -> {
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, Feather()).commit()
-                bottomMenu.selectedItemId = R.id.feather
-            }
 
             R.id.nav_search -> {
                 requireActivity().supportFragmentManager.beginTransaction()
